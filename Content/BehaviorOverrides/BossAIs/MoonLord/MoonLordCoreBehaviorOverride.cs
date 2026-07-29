@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using CalamityMod;
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Systems.Mechanic;
 using CalamityMod.World;
 using InfernumMode.Assets.Sounds;
 using InfernumMode.Content.Projectiles.Pets;
 using InfernumMode.Content.Tiles.Misc;
 using InfernumMode.Content.WorldGeneration;
+using InfernumMode.Core;
 using InfernumMode.Core.GlobalInstances;
 using InfernumMode.Core.GlobalInstances.Systems;
 using InfernumMode.Core.Netcode;
@@ -72,6 +74,8 @@ namespace InfernumMode.Content.BehaviorOverrides.BossAIs.MoonLord
         public const float Phase3LifeRatio = 0.33333f;
 
         public static readonly Color OverallTint = new(7, 81, 81);
+
+        public ArenaWallSystem.Box? ArenaBox;
 
         public static bool IsEnraged
         {
@@ -219,6 +223,12 @@ namespace InfernumMode.Content.BehaviorOverrides.BossAIs.MoonLord
                 Player closest = Main.player[Player.FindClosest(npc.Center, 1, 1)];
                 Point closestTileCoords = closest.Center.ToTileCoordinates();
                 npc.Infernum().Arena = new Rectangle((int)closest.position.X - ArenaWidth * 8, (int)closest.position.Y - ArenaHeight * 8 + 20, ArenaWidth * 16, ArenaHeight * 16);
+
+                // If there is a value in the arena, reset it so can create a new one.
+                if (ArenaBox is not null)
+                    ArenaBox = null;
+
+                /* Old tile arena.
                 for (int i = closestTileCoords.X - ArenaWidth / 2; i <= closestTileCoords.X + ArenaWidth / 2; i++)
                 {
                     for (int j = closestTileCoords.Y - ArenaHeight / 2; j <= closestTileCoords.Y + ArenaHeight / 2; j++)
@@ -235,6 +245,7 @@ namespace InfernumMode.Content.BehaviorOverrides.BossAIs.MoonLord
                         }
                     }
                 }
+                */
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
@@ -268,6 +279,63 @@ namespace InfernumMode.Content.BehaviorOverrides.BossAIs.MoonLord
                 attackState = (int)MoonLordAttackState.SpawnEffects;
                 npc.netUpdate = true;
             }
+
+            #region Arena Box
+            void DrawInfernumArena(ArenaWallSystem.Box box)
+            {
+                // Inner border.
+                box.DrawBoxWithOffset(box.borderThickness / 4f, 2f, box.borderColor);
+
+                if (!InfernumConfig.Instance.ReducedGraphicsConfig)
+                {
+                    const int lineCount = 4;
+                    const float totalDistance = 100f;
+                    float animationOffset = Main.GlobalTimeWrappedHourly % 1f;
+
+                    for (int i = 0; i < lineCount; i++)
+                    {
+                        float completion = (i + animationOffset) / lineCount;
+                        float offset = totalDistance * completion + 4f;
+                        float opacity = 1f - completion;
+
+                        box.DrawBoxWithOffset(offset, 2f, box.borderColor * opacity);
+                    }
+                }
+            }
+
+            Vector4 targetDimensions = new Vector4(ArenaHeight * 8f, ArenaWidth * 8f, ArenaHeight * 8f, ArenaWidth * 8f);
+
+            // Create the arena.
+            if (ArenaBox is null)
+            {
+                int npcIndex = npc.whoAmI;
+                int npcType = npc.type;
+
+                ArenaBox = new ArenaWallSystem.Box
+                {
+                    position = npc.Center,
+
+                    // The initial value is doubled here to match the original arena system's initialization behavior. NewDimensions corrects it immediately below.
+                    boxDimensions = targetDimensions * 2f,
+
+                    borderThickness = 16f,
+
+                    borderColor = Color.Teal,
+
+                    RemovalCondition = () => !Main.npc.IndexInRange(npcIndex) || !Main.npc[npcIndex].active || Main.npc[npcIndex].type != npcType,
+
+                    DrawBox = DrawInfernumArena,
+
+                    DespawnAction = box => true
+                };
+
+                ArenaWallSystem.ActiveBoxes.Add(ArenaBox);
+            }
+
+            ArenaBox.position = npc.Infernum().Arena.Center.ToVector2() + new Vector2(8f, 0);
+
+            ArenaBox.NewDimensions = Vector4.Lerp(ArenaBox.boxDimensions, targetDimensions, 0.1f);
+            #endregion
 
             // Define enragement status.
             npc.Calamity().CurrentlyEnraged = IsEnraged;

@@ -1,10 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 namespace InfernumMode.Content.Tiles.Misc
 {
+    [Obsolete("Use Calamity's arena system instead")]
     public class MoonlordArena : ModTile
     {
         public override void SetStaticDefaults()

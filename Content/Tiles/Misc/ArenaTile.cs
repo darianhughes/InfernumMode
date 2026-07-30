@@ -1,4 +1,5 @@
-﻿using CalamityMod.NPCs;
+﻿using System;
+using CalamityMod.NPCs;
 using CalamityMod.Skies;
 using Terraria;
 using Terraria.ID;
@@ -7,6 +8,7 @@ using Terraria.ModLoader;
 namespace InfernumMode.Content.Tiles.Misc
 {
     // Ported 1:1 from Calamity source.
+    [Obsolete("Use Calamity's arena system instead")]
     public class ArenaTile : ModTile
     {
         public override void SetStaticDefaults()

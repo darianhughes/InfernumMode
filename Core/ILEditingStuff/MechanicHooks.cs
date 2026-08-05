@@ -1090,18 +1090,21 @@ namespace InfernumMode.Core.ILEditingStuff
                 Cal_GlobalNPC_PostAI_Detour_Hook = new(Cal_GlobalNPC_PostAI, Cal_GlobalNPC_PostAI_Detour);
                 Cal_GlobalNPC_PostAI_Detour_Hook?.Apply();
             }
+            else InfernumMode.Instance.Logger.Error(this + " returned null on getting MethodInfo");
 
             if (Cal_GlobalNPC_ShouldAffectNPC != null)
             {
                 Cal_GlobalNPC_ShouldAffectNPC_Detour_Hook = new(Cal_GlobalNPC_ShouldAffectNPC, Cal_GlobalNPC_ShouldAffectNPC_Detour);
                 Cal_GlobalNPC_ShouldAffectNPC_Detour_Hook?.Apply();
             }
+            else InfernumMode.Instance.Logger.Error(this + " returned null on getting MethodInfo");
 
             if (Cal_CalamityUtils_CanBeMoved != null)
             {
                 Cal_CalamityUtils_CanBeMoved_Detour_Hook = new(Cal_CalamityUtils_CanBeMoved, Cal_CalamityUtils_CanBeMoved_Detour);
                 Cal_CalamityUtils_CanBeMoved_Detour_Hook?.Apply();
             }
+            else InfernumMode.Instance.Logger.Error(this + " returned null on getting MethodInfo");
         }
 
         public void Cal_GlobalNPC_PostAI_Detour(Orig_Cal_GlobalNPC_PostAI orig, CalamityGlobalNPC self, NPC npc)

@@ -9,6 +9,7 @@ using CalamityMod.NPCs.ExoMechs;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Providence;
+using CalamityMod.NPCs.SupremeCalamitas;
 using InfernumMode.Common.DataStructures;
 using InfernumMode.Common.Graphics.Primitives;
 using InfernumMode.Content.Achievements;
@@ -235,6 +236,10 @@ namespace InfernumMode.Core.GlobalInstances
             {
                 cooldownSlot = 0;
                 return npc.alpha == 0;
+            }
+            if (npc.type == ModContent.NPCType<SepulcherHead>() || npc.type == ModContent.NPCType<SepulcherArm>() || npc.type == ModContent.NPCType<SepulcherBody>() || npc.type == ModContent.NPCType<SepulcherBodyEnergyBall>() || npc.type == ModContent.NPCType<SepulcherTail>())
+            {
+                cooldownSlot = ImmunityCooldownID.Bosses;
             }
             return base.CanHitPlayer(npc, target, ref cooldownSlot);
         }

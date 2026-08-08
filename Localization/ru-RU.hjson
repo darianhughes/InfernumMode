@@ -2472,6 +2472,7 @@ Mods: {
 			BrimstoneBarrageOld.DisplayName: Серный дротик
 			SupremeCataclysmFistOld.DisplayName: Кулак ярости
 			VortexFireball.DisplayName: Огненный шар вихря
+			// RancorFog.DisplayName: The Fog Is Coming
 		}
 
 		Status: {

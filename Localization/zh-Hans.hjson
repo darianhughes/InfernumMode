@@ -2459,6 +2459,7 @@ Mods: {
 			BrimstoneBarrageOld.DisplayName: 硫火飞弹
 			SupremeCataclysmFistOld.DisplayName: 硫火碎魂拳
 			VortexFireball.DisplayName: 漩涡火球
+			// RancorFog.DisplayName: The Fog Is Coming
 		}
 
 		Status: {

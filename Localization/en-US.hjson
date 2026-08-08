@@ -1,4 +1,4 @@
-﻿Mods: {
+Mods: {
 	InfernumMode: {
 		Achievements: {
 			BabysFirstAchievement: {
@@ -2464,6 +2464,7 @@
 			BrimstoneBarrageOld.DisplayName: Brimstone Dart
 			SupremeCataclysmFistOld.DisplayName: Fist of Fury
 			VortexFireball.DisplayName: Vortex Fireball
+			RancorFog.DisplayName: The Fog Is Coming
 		}
 
 		Status: {

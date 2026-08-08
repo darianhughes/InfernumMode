@@ -211,6 +211,7 @@ namespace InfernumMode.Content.BehaviorOverrides.BossAIs.CeaselessVoid
             ref float voidIsCracked = ref npc.localAI[0];
             ref float teleportEffectInterpolant = ref npc.localAI[1];
             ref float phaseCycleIndex = ref npc.Infernum().ExtraAI[PhaseCycleIndexIndex];
+            npc.Infernum().ExtraAI[8] = 0;
 
             // Do phase transitions.
             if (currentPhase == 0f && phase2)
@@ -570,6 +571,12 @@ namespace InfernumMode.Content.BehaviorOverrides.BossAIs.CeaselessVoid
                 }
             }
             darkEnergyTotalMaxLife *= totalRings * energyCountPerRing;
+            // Cache these for the vanilla boss bar shield
+            if (npc.Infernum().ExtraAI[7] == 0)
+            {
+                npc.Infernum().ExtraAI[7] = darkEnergyTotalMaxLife / 2f;
+            }
+            npc.Infernum().ExtraAI[8] = darkEnergyTotalLife - (darkEnergyTotalMaxLife / 2f);
 
             float darkEnergyLifeRatio = darkEnergyTotalLife / (float)darkEnergyTotalMaxLife;
             if (darkEnergyTotalMaxLife <= 0)

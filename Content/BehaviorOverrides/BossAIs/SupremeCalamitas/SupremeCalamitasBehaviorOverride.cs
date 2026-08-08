@@ -17,7 +17,6 @@ using InfernumMode.Common.Graphics.Fluids;
 using InfernumMode.Content.BehaviorOverrides.BossAIs.SupremeCalamitas.Symbols;
 using InfernumMode.Content.Credits;
 using InfernumMode.Content.Projectiles.Pets;
-using InfernumMode.Content.Tiles.Misc;
 using InfernumMode.Core;
 using InfernumMode.Core.GlobalInstances.Systems;
 using InfernumMode.Core.OverridingSystem;
@@ -436,12 +435,22 @@ namespace InfernumMode.Content.BehaviorOverrides.BossAIs.SupremeCalamitas
 
             void DrawInfernumArena(ArenaWallSystem.Box box)
             {
-                // Inside fill.
-                box.DrawBoxWithOffset(box.borderThickness * 0.5f, box.borderThickness, Color.Black * 0.15f);
+                if (!InfernumConfig.Instance.ReducedGraphicsConfig)
+                {
+                    // Inside fill.
+                    box.DrawBoxWithOffset(box.borderThickness * 0.5f, box.borderThickness, Color.Black * 0.15f);
 
-                // Inner border.
-                box.DrawBoxWithOffset(4f, 2f, box.borderColor * 0.15f);
+                    // Inner border.
+                    box.DrawBoxWithOffset(4f, 2f, box.borderColor * 0.15f);
+                }
+                else
+                {
+                    // Inside fill.
+                    box.DrawBoxWithOffset(box.borderThickness * 0.5f, box.borderThickness, Color.Black * 0.3f);
 
+                    // Inner border.
+                    box.DrawBoxWithOffset(2f, 2f, box.borderColor);
+                }
                 // Outer border.
                 box.DrawBoxWithOffset(box.borderThickness - 2f, 2f, box.borderColor);
             }
@@ -459,7 +468,7 @@ namespace InfernumMode.Content.BehaviorOverrides.BossAIs.SupremeCalamitas
                     // The initial value is doubled here to match the original arena system's initialization behavior. NewDimensions corrects it immediately below.
                     boxDimensions = new Vector4(1000f) * 2f,
 
-                    borderThickness = 2000f, //2000f is the base cal ammount, 16f would be one tile wide.
+                    borderThickness = 16f * 8, //2000f is the base cal ammount, 16f would be one tile wide.
 
                     borderColor = SCalBoss.GriefColor,
 

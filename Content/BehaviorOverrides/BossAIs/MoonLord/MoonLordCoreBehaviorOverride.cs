@@ -283,13 +283,14 @@ namespace InfernumMode.Content.BehaviorOverrides.BossAIs.MoonLord
             #region Arena Box
             void DrawInfernumArena(ArenaWallSystem.Box box)
             {
-                // Inner border.
-                box.DrawBoxWithOffset(box.borderThickness / 4f, 2f, box.borderColor);
-
+                // Fancy border effect
                 if (!InfernumConfig.Instance.ReducedGraphicsConfig)
                 {
+                    // Inner border.
+                    box.DrawBoxWithOffset(2f, 2f, box.borderColor);
+
                     const int lineCount = 4;
-                    const float totalDistance = 100f;
+                    const float totalDistance = 124f;
                     float animationOffset = Main.GlobalTimeWrappedHourly % 1f;
 
                     for (int i = 0; i < lineCount; i++)
@@ -300,6 +301,15 @@ namespace InfernumMode.Content.BehaviorOverrides.BossAIs.MoonLord
 
                         box.DrawBoxWithOffset(offset, 2f, box.borderColor * opacity);
                     }
+                }
+                else
+                {
+                    // Inner filler
+                    box.DrawBoxWithOffset(box.borderThickness * 0.5f, box.borderThickness, Color.Black * 0.15f);
+                    // Inner border.
+                    box.DrawBoxWithOffset(2f, 2f, box.borderColor);
+                    // Outer border
+                    box.DrawBoxWithOffset(box.borderThickness - 2f, 2f, box.borderColor);
                 }
             }
 
@@ -318,7 +328,7 @@ namespace InfernumMode.Content.BehaviorOverrides.BossAIs.MoonLord
                     // The initial value is doubled here to match the original arena system's initialization behavior. NewDimensions corrects it immediately below.
                     boxDimensions = targetDimensions * 2f,
 
-                    borderThickness = 16f,
+                    borderThickness = 16f * 8,
 
                     borderColor = Color.Teal,
 

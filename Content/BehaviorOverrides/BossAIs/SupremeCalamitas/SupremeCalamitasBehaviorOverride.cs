@@ -487,7 +487,7 @@ namespace InfernumMode.Content.BehaviorOverrides.BossAIs.SupremeCalamitas
                     box.DrawBoxWithOffset(2f, 2f, box.borderColor);
                 }
                 // Outer border.
-                box.DrawBoxWithOffset(box.borderThickness - 2f, 2f, box.borderColor * 0.15f);
+                box.DrawBoxWithOffset(box.borderThickness - 2f, 2f, box.borderColor * (InfernumConfig.Instance.ReducedGraphicsConfig ? 1f : 0.15f));
             }
 
             // Create the arena. We use the base Cal variables since its neccessary to update the meatball colors.

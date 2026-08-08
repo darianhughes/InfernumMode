@@ -16,6 +16,7 @@ namespace InfernumMode.Core.GlobalInstances
             if (npc.type == NPCID.BrainofCthulhu)
             {
                 drawParams.Shield = 0;
+                drawParams.ShieldMax = 0;
             }
             if (npc.type == NPCID.GolemHead || npc.type == NPCID.Golem)
             {

@@ -96,6 +96,15 @@ namespace InfernumMode.Content.BehaviorOverrides.BossAIs.Golem
 
         public static Vector2 GetRightFistAttachmentPosition(NPC npc) => new(npc.Right.X + 24f, npc.Right.Y - 6f);
 
+        public override void SetDefaults(NPC npc)
+        {
+            if (npc.type == NPCOverrideType)
+            {
+                npc.Calamity().ShouldCloseHPBar = true;
+                npc.Calamity().CanHaveBossHealthBar = false;
+            }
+        }
+
         public override bool PreAI(NPC npc)
         {
             // Set the whoAmI variable.
@@ -245,6 +254,8 @@ namespace InfernumMode.Content.BehaviorOverrides.BossAIs.Golem
             // Reset telegraph interpolants.
             eyeLaserRayInterpolant = 0f;
             coreLaserRayInterpolant = 0f;
+            npc.Calamity().ShouldCloseHPBar = true;
+            npc.Calamity().CanHaveBossHealthBar = false;
 
             bool Enraged = EnrageState == 1f;
 

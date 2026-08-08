@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using CalamityMod;
 using InfernumMode.Core.OverridingSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,6 +14,14 @@ namespace InfernumMode.Content.BehaviorOverrides.BossAIs.Golem
     {
         public override int NPCOverrideType => NPCID.GolemHeadFree;
 
+        public override void SetDefaults(NPC npc)
+        {
+            if (npc.type == NPCOverrideType)
+            {
+                npc.Calamity().ShouldCloseHPBar = false;
+                npc.Calamity().CanHaveBossHealthBar = true;
+            }
+        }
         public override bool PreAI(NPC npc)
         {
             if (!Main.npc[(int)npc.ai[0]].active || Main.npc[(int)npc.ai[0]].type != NPCID.Golem)

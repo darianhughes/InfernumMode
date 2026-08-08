@@ -305,7 +305,7 @@ namespace InfernumMode.Content.BehaviorOverrides.BossAIs.MoonLord
                 else
                 {
                     // Inner filler
-                    box.DrawBoxWithOffset(box.borderThickness * 0.5f, box.borderThickness, Color.Black * 0.15f);
+                    box.DrawBoxWithOffset(box.borderThickness * 0.5f, box.borderThickness, Color.Black * 0.3f);
                     // Inner border.
                     box.DrawBoxWithOffset(2f, 2f, box.borderColor);
                     // Outer border

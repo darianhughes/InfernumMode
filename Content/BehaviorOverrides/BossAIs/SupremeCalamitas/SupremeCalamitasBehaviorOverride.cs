@@ -407,7 +407,9 @@ namespace InfernumMode.Content.BehaviorOverrides.BossAIs.SupremeCalamitas
                 #endregion
 
                 #region Wall Metaball Particles
-                // Side particles.
+                float outerOffset = box.borderThickness - 4f;
+
+                // Inner side particles.
                 for (int i = 0; i < box.Size.Y / 100f; i++)
                 {
                     Vector2 point = Vector2.Lerp(box.BottomRight, box.TopRight, Main.rand.NextFloat());
@@ -420,7 +422,7 @@ namespace InfernumMode.Content.BehaviorOverrides.BossAIs.SupremeCalamitas
                     particle.SizeScaling = 0.95f;
                 }
 
-                // Top and bottom particles.
+                // Inner top/bottom particles.
                 for (int i = 0; i < box.Size.X / 100f; i++)
                 {
                     Vector2 point = Vector2.Lerp(box.TopLeft, box.TopRight, Main.rand.NextFloat());
@@ -428,6 +430,39 @@ namespace InfernumMode.Content.BehaviorOverrides.BossAIs.SupremeCalamitas
                     particle.SizeScaling = 0.95f;
                     point = Vector2.Lerp(box.BottomRight, box.BottomLeft, Main.rand.NextFloat());
                     particle = ScalArenaMetaball.SpawnParticle(point + Vector2.UnitY * 8f, Vector2.Zero, 16f);
+                    particle.SizeScaling = 0.95f;
+                }
+
+                Vector2 outerTopLeft = box.TopLeft - new Vector2(outerOffset);
+                Vector2 outerTopRight = box.TopRight + new Vector2(outerOffset, -outerOffset);
+                Vector2 outerBottomLeft = box.BottomLeft + new Vector2(-outerOffset, outerOffset);
+                Vector2 outerBottomRight = box.BottomRight + new Vector2(outerOffset);
+
+                // Outer side particles.
+                for (int i = 0; i < (box.Size.Y + outerOffset * 2f) / 100f; i++)
+                {
+                    // Right outer edge.
+                    Vector2 point = Vector2.Lerp(outerBottomRight, outerTopRight, Main.rand.NextFloat());
+                    particle = ScalArenaMetaball.SpawnParticle(point, Vector2.Zero, 16f);
+                    particle.SizeScaling = 0.95f;
+
+                    // Left outer edge.
+                    point = Vector2.Lerp(outerTopLeft, outerBottomLeft, Main.rand.NextFloat());
+                    particle = ScalArenaMetaball.SpawnParticle(point, Vector2.Zero, 16f);
+                    particle.SizeScaling = 0.95f;
+                }
+
+                // Outer top/bottom particles.
+                for (int i = 0; i < (box.Size.X + outerOffset * 2f) / 100f; i++)
+                {
+                    // Top outer edge.
+                    Vector2 point = Vector2.Lerp(outerTopLeft, outerTopRight, Main.rand.NextFloat());
+                    particle = ScalArenaMetaball.SpawnParticle(point, Vector2.Zero, 16f);
+                    particle.SizeScaling = 0.95f;
+
+                    // Bottom outer edge.
+                    point = Vector2.Lerp(outerBottomRight, outerBottomLeft, Main.rand.NextFloat());
+                    particle = ScalArenaMetaball.SpawnParticle(point, Vector2.Zero, 16f);
                     particle.SizeScaling = 0.95f;
                 }
                 #endregion
@@ -452,7 +487,7 @@ namespace InfernumMode.Content.BehaviorOverrides.BossAIs.SupremeCalamitas
                     box.DrawBoxWithOffset(2f, 2f, box.borderColor);
                 }
                 // Outer border.
-                box.DrawBoxWithOffset(box.borderThickness - 2f, 2f, box.borderColor);
+                box.DrawBoxWithOffset(box.borderThickness - 2f, 2f, box.borderColor * (InfernumConfig.Instance.ReducedGraphicsConfig ? 1f : 0.15f));
             }
 
             // Create the arena. We use the base Cal variables since its neccessary to update the meatball colors.
